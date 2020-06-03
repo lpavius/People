@@ -1,9 +1,8 @@
 package fr.formation.people.services;
 
-import fr.formation.people.dtos.UserDto;
-import fr.formation.people.entities.User;
+import fr.formation.people.dtos.UserCreateDto;
 
 public interface UserService {
 
-    void create(UserDto user);
+    void create(UserCreateDto user);
 }

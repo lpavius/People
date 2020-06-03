@@ -11,10 +11,10 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 10, unique = true)
     private String code;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1)
     private boolean defaultRole;
 
     //@OneToMany(mappedBy = "role_user",
@@ -47,5 +47,13 @@ public class Role {
 
     public void setDefaultRole(boolean defaultRole) {
         this.defaultRole = defaultRole;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                '}';
     }
 }

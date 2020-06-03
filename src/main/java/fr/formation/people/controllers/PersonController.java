@@ -18,7 +18,7 @@ import java.util.List;
 // pour un  type de ressources (Person)
 
 @RestController // Ceci est un controller, tiens en compte
-@RequestMapping // correspondance url/code
+@RequestMapping("/person") // correspondance url/code
 // http://localhost:8082/persons
 @CrossOrigin(origins = "*")
 public class PersonController {
@@ -31,7 +31,7 @@ public class PersonController {
         this.service = service;
     }
 
-    @GetMapping("/persons")
+    @GetMapping("/list")
     public List<PersonDto> getPersons() {
         List<PersonDto> personDto = new ArrayList<>();
         for (Person person: service.getPersons()) {
@@ -42,12 +42,12 @@ public class PersonController {
 
     // GET http://localhost:8082/persons
     // 123 = path variable (variable de chemin)
-    @GetMapping("/person/{id}")
+    @GetMapping("/{id}")
     public PersonDto get(@PathVariable("id") Long id) {
         return service.get(id);
     }
 
-    @DeleteMapping("/person/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
         service.delete(id);
     }
@@ -55,7 +55,7 @@ public class PersonController {
     // @RequestBody = extraire et convertir le JSON du corp (body)
     // de la requête HTTP vers une instance de PersonCreateDto
     // @Valid: cascader la validation sur de DTO
-    @PostMapping("/person")
+    @PostMapping
     public String create(@RequestBody @Valid PersonWithAddressDto dto) {
         service.create(dto);
         return "OK";

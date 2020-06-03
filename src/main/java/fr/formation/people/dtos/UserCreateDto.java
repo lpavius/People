@@ -2,28 +2,28 @@ package fr.formation.people.dtos;
 
 import javax.validation.constraints.*;
 
-public class UserDto { // UserCreateDto
+public class UserCreateDto { // UserCreateDto
 
     @Size(max = 254) // 256
     @NotNull
     @Email
-    private String mail;
+    private String username;
 
     @Size(min = 8, max = 20)
     @NotEmpty
     private String password;
 
-    public UserDto(String mail, String password) {
-        this.mail = mail;
+    public UserCreateDto(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public String getMail() {
-        return mail;
+    public String getUsername() {
+        return username;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -37,7 +37,7 @@ public class UserDto { // UserCreateDto
     @Override
     public String toString() {
         return "UserDto{" +
-                "mail='" + mail + '\'' +
+                "username='" + username + '\'' +
                 ", password=[PROTECTED]" +
                 '}';
     }

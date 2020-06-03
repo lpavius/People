@@ -10,8 +10,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 254)
-    private String mail;
+    @Column(nullable = false, length = 256, unique = true)
+    private String username;
 
     @Column(nullable = false, length = 60)
     private String password;
@@ -19,6 +19,9 @@ public class User {
     @ManyToOne
     @JoinColumn(nullable = false) // name = "role_id"
     private Role role;
+
+    @Column(nullable = false)
+    private boolean enabled;
 
     public User() {
         //
@@ -32,12 +35,12 @@ public class User {
         this.id = id;
     }
 
-    public String getMail() {
-        return mail;
+    public String getUsername() {
+        return username;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -56,11 +59,19 @@ public class User {
         this.role = role;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", mail='" + mail + '\'' +
+                ", username='" + username + '\'' +
                 ", password=[PROTECTED]" +
                 ", role_user=" + role +
                 '}';

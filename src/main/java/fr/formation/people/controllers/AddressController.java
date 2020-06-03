@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping
+@RequestMapping("/address")
 @CrossOrigin
 public class AddressController {
 
@@ -25,12 +25,12 @@ public class AddressController {
         this.service = service;
     }
 
-    @PostMapping("/address") // POST "/addresses" avec un JSON dans le corps de la requête
+    @PostMapping // POST "/addresses" avec un JSON dans le corps de la requête
     public void create(@RequestBody @Valid AddressCreateDto dto) {
         service.create(dto);
     }
 
-    @GetMapping("/addresses")
+    @GetMapping("/list")
     public List<AddressDto> getAll() {
         return service.getAddresses().stream()
                 .map(address -> new AddressDto( address.getId(),
@@ -42,7 +42,7 @@ public class AddressController {
     }
 
 
-    @GetMapping("/address/{id}") // GET "/addresses/1" ou 1 correspond à l'id d'une adresse existante en bdd
+    @GetMapping("/{id}") // GET "/addresses/1" ou 1 correspond à l'id d'une adresse existante en bdd
     public AddressDto get(@PathVariable("id") Long id) {
         return service.get(id);
     }

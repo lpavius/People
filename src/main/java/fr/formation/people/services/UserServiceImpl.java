@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void create(UserCreateDto dto) { // changer par UserCreateDto
+    public void create(UserCreateDto dto) {
         User user = new User();
         user.setUsername(dto.getUsername());
         String rawPassword = dto.getPassword();

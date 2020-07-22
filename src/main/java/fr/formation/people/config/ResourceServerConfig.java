@@ -1,5 +1,7 @@
 package fr.formation.people.config;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -7,11 +9,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.web.session.SessionManagementFilter;
 
 @Configuration
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+	@Value("${people.allowedOrigin}")
+	private String allowedOrigin;
 
     /**
      * Configures the HTTP security for this application.
@@ -26,9 +32,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	// Disable CSRF, no need with JWT if not cookie-based.
 	// Disable CORS if API is public, better to enable in general.
 	// Anonymous is enabled by default.
-	http.httpBasic().disable().csrf().disable().cors().disable()
-		.sessionManagement()
+	http.httpBasic().disable().csrf().disable().sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+		//
+		.addFilterBefore(corsFilter(), SessionManagementFilter.class)
 		// "/api/public/**" for anyone even anonymous
 		.authorizeRequests().antMatchers(HttpMethod.POST,"/api/users").permitAll()
 		/*
@@ -38,4 +45,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		.antMatchers("/api/person/**", "/api/address/**")
 		.authenticated();
     }
+
+	@Bean
+    CorsFilter corsFilter() {
+    	return new CorsFilter(allowedOrigin);
+	}
 }
